@@ -20,6 +20,8 @@ public class Header {
     @FindBy(xpath = "//button[@id = 'send2']")
     private WebElement loginButton;
 
+    @FindBy(xpath = "//div[@class = 'links']//li//a[text() = 'Register']")
+    private WebElement registerButton;
 
     @FindBy(id = "firstname")
     private WebElement accountFields;
@@ -41,10 +43,9 @@ public class Header {
     }
 
     public WebElement getFieldFromAccountSection(String keyword, WebDriver driver) {
-        return driver.findElement(By.xpath("//div[@id = 'header-account']//li[@class = 'first']//a[text() = '" + keyword +
+        return driver.findElement(By.xpath("//div[@id = 'header-account']//div[@class = 'links']//li//a[text() =  '" + keyword +
                 "']"));
     }
-
     public void logIn(WebDriver driver) {
         Header header = PageFactory.initElements(driver, Header.class);
 
@@ -54,6 +55,24 @@ public class Header {
         driver.findElement(By.xpath("//li//input[@class = 'input-text required-entry validate-email']")).sendKeys("titus.petrisor@yahoo.com");
         driver.findElement(By.xpath("//input[@class = 'input-text required-entry validate-password']")).sendKeys("TestCreateaccount");
         header.getLoginButton().click();
+
+    }
+
+    public void registerNewUser( String email, String password, String firstName, String lastName, WebDriver driver){
+        Header header = PageFactory.initElements(driver, Header.class);
+
+        String keyword = "Register";
+        header.getAccountButton().click();
+        header.getFieldFromAccountSection(keyword, driver).click();
+
+        driver.findElement(By.id("firstname")).sendKeys(firstName);
+        driver.findElement(By.id("lastname")).sendKeys(lastName);
+        driver.findElement(By.className("validate-email")).sendKeys(email);
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("confirmation")).sendKeys(password);
+        driver.findElement(By.id("is_subscribed")).click();
+
+
 
 
     }
@@ -77,5 +96,6 @@ public class Header {
     public WebElement getAccountFields() {
         return accountFields;
     }
+
 
 }

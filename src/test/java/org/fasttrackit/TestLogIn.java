@@ -21,6 +21,7 @@ public class TestLogIn extends TestBase {
                 " of your recent account activity and update your account information. Select a link below to view or edit information.";
         String messageFromAccountPage = driver.findElement(By.xpath("//div[@class = 'welcome-msg']")).getText();
         assertThat("Expected a welcome message", messageFromAccountPage, containsString(expectedMessage));
+        System.out.println("Login successful");
 
 
     }
