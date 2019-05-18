@@ -16,7 +16,6 @@ public class Header {
     @FindBy(xpath = "//div[@class = 'account-cart-wrapper']//span[text() = 'Account']")
     private WebElement accountButton;
 
-
     @FindBy(xpath = "//button[@id = 'send2']")
     private WebElement loginButton;
 
@@ -26,26 +25,36 @@ public class Header {
     @FindBy(id = "firstname")
     private WebElement accountFields;
 
+    @FindBy(xpath = "//div[@id = 'header-nav']//ol//a[text() = 'Women']")
+    private WebElement womenButton;
+
+    @FindBy(xpath = "//div[@id = 'header-nav']//ol//a[text() = 'Men']")
+    private WebElement menButton;
+
+    @FindBy(xpath = "//ul[@class = 'messages']")
+    private WebElement successfulmessage;
+
     public void insertDate(String keyword) {
         accountFields.sendKeys(keyword);
     }
 
-
     public void search(String keyword) {
-
-
         searchField.sendKeys(keyword);
         searchButton.click();
     }
 
     public WebElement editLinkButton(String keyword, WebDriver driver) {
-        return driver.findElement(By.xpath("//div[@class = 'col-1']//div[@class = 'box-title']// a[text() = '" + keyword + "']"));
+        return driver.findElement(By.xpath("//div[@class = 'col-1']//div[@class = 'box']// a[text() = '" + keyword + "']"));
     }
 
     public WebElement getFieldFromAccountSection(String keyword, WebDriver driver) {
         return driver.findElement(By.xpath("//div[@id = 'header-account']//div[@class = 'links']//li//a[text() =  '" + keyword +
                 "']"));
     }
+    public WebElement clickOnDashboardPages(WebDriver driver, String keyword){
+        return driver.findElement(By.xpath("//div[@class = 'block-content']//a[text() = '" + keyword + "']"));
+    }
+
     public void logIn(WebDriver driver) {
         Header header = PageFactory.initElements(driver, Header.class);
 
@@ -53,12 +62,11 @@ public class Header {
         header.getAccountButton().click();
         header.getFieldFromAccountSection(keyword, driver).click();
         driver.findElement(By.xpath("//li//input[@class = 'input-text required-entry validate-email']")).sendKeys("titus.petrisor@yahoo.com");
-        driver.findElement(By.xpath("//input[@class = 'input-text required-entry validate-password']")).sendKeys("TestCreateaccount");
+        driver.findElement(By.xpath("//input[@class = 'input-text required-entry validate-password']")).sendKeys("Testcreateaccount");
         header.getLoginButton().click();
-
     }
 
-    public void registerNewUser( String email, String password, String firstName, String lastName, WebDriver driver){
+    public void createAccount(String email, String password, String firstName, String lastName, WebDriver driver) {
         Header header = PageFactory.initElements(driver, Header.class);
 
         String keyword = "Register";
@@ -71,10 +79,58 @@ public class Header {
         driver.findElement(By.id("password")).sendKeys(password);
         driver.findElement(By.id("confirmation")).sendKeys(password);
         driver.findElement(By.id("is_subscribed")).click();
+        driver.quit();
+    }
 
+    public void createAccountFromLogInPage(String email, String password, String firstName, String lastName, WebDriver driver) {
+        Header header = PageFactory.initElements(driver, Header.class);
 
+        String keyword = "Log In";
+        header.getAccountButton().click();
+        header.getFieldFromAccountSection(keyword, driver).click();
+        driver.findElement(By.xpath("//div[@class = 'buttons-set']//a")).click();
 
+        driver.findElement(By.id("firstname")).sendKeys(firstName);
+        driver.findElement(By.id("lastname")).sendKeys(lastName);
+        driver.findElement(By.className("validate-email")).sendKeys(email);
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("confirmation")).sendKeys(password);
+        driver.findElement(By.id("is_subscribed")).click();
 
+        driver.findElement(By.xpath("//div[@class = 'buttons-set']//button")).click();
+    }
+
+    public void insertInformationInFields(WebDriver driver){
+        Header header = PageFactory.initElements(driver, Header.class);
+        driver.findElement(By.id("firstname")).clear();
+        driver.findElement(By.id("firstname")).sendKeys("Titus");
+        driver.findElement(By.xpath("//input[@id= 'current_password']")).sendKeys("Testcreateaccount");
+        driver.findElement(By.xpath("//div[@class = 'buttons-set']//button")).click();
+    }
+
+    public void subOrUnsub(WebDriver driver){
+        Header header = PageFactory.initElements(driver, Header.class);
+        driver.findElement(By.xpath("//div[@class = 'col-2']//a[text() = 'Edit']")).click();
+        driver.findElement(By.xpath("//div//input[@id = 'subscription']")).click();
+        driver.findElement(By.xpath("//button[@title= 'Save']")).click();
+    }
+
+    public void fillinAddressInformation(WebDriver driver, String phoneNumber, String street, String city, String regionNumber, String zipCode){
+        Header header = PageFactory.initElements(driver, Header.class);
+
+        driver.findElement(By.id("telephone")).clear();
+        driver.findElement(By.id("telephone")).sendKeys(phoneNumber);
+        driver.findElement(By.id("street_1")).clear();
+        driver.findElement(By.id("street_1")).sendKeys(street);
+        driver.findElement(By.id("city")).clear();
+        driver.findElement(By.id("city")).sendKeys(city);
+        driver.findElement(By.id("region_id")).click();
+        driver.findElement(By.xpath("//div//select//option[@value = '" + regionNumber + "']")).click();
+        driver.findElement(By.id("zip")).clear();
+        driver.findElement(By.id("zip")).sendKeys(zipCode);
+        driver.findElement(By.xpath("//button[@title= 'Save Address']")).click();
+
+        System.out.println("The address was changed");
     }
 
     public WebElement getAccountButton() {
@@ -97,5 +153,15 @@ public class Header {
         return accountFields;
     }
 
+    public WebElement getWomenButton() {
+        return womenButton;
+    }
 
+    public WebElement getMenButton() {
+        return menButton;
+    }
+
+    public WebElement getSuccessfulmessage() {
+        return successfulmessage;
+    }
 }
