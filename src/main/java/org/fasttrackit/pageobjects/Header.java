@@ -1,5 +1,6 @@
 package org.fasttrackit.pageobjects;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -51,7 +52,8 @@ public class Header {
         return driver.findElement(By.xpath("//div[@id = 'header-account']//div[@class = 'links']//li//a[text() =  '" + keyword +
                 "']"));
     }
-    public WebElement clickOnDashboardPages(WebDriver driver, String keyword){
+
+    public WebElement clickOnDashboardPages(WebDriver driver, String keyword) {
         return driver.findElement(By.xpath("//div[@class = 'block-content']//a[text() = '" + keyword + "']"));
     }
 
@@ -100,7 +102,7 @@ public class Header {
         driver.findElement(By.xpath("//div[@class = 'buttons-set']//button")).click();
     }
 
-    public void insertInformationInFields(WebDriver driver){
+    public void insertInformationInFields(WebDriver driver) {
         Header header = PageFactory.initElements(driver, Header.class);
         driver.findElement(By.id("firstname")).clear();
         driver.findElement(By.id("firstname")).sendKeys("Titus");
@@ -108,14 +110,14 @@ public class Header {
         driver.findElement(By.xpath("//div[@class = 'buttons-set']//button")).click();
     }
 
-    public void subOrUnsub(WebDriver driver){
+    public void subOrUnsub(WebDriver driver) {
         Header header = PageFactory.initElements(driver, Header.class);
         driver.findElement(By.xpath("//div[@class = 'col-2']//a[text() = 'Edit']")).click();
         driver.findElement(By.xpath("//div//input[@id = 'subscription']")).click();
         driver.findElement(By.xpath("//button[@title= 'Save']")).click();
     }
 
-    public void fillinAddressInformation(WebDriver driver, String phoneNumber, String street, String city, String regionNumber, String zipCode){
+    public void fillinAddressInformation(WebDriver driver, String phoneNumber, String street, String city, String regionNumber, String zipCode) {
         Header header = PageFactory.initElements(driver, Header.class);
 
         driver.findElement(By.id("telephone")).clear();
@@ -131,6 +133,37 @@ public class Header {
         driver.findElement(By.xpath("//button[@title= 'Save Address']")).click();
 
         System.out.println("The address was changed");
+    }
+
+    public void shareYourWishlist(WebDriver driver, String emails, String message) {
+        driver.findElement(By.xpath("//div[@class = 'input-box']//textarea[@name = 'emails']")).sendKeys(emails);
+        driver.findElement(By.xpath("//div[@class = 'input-box']//textarea[@name = 'message']")).sendKeys(message);
+        driver.findElement(By.xpath("//button[@title = 'Share Wishlist']")).click();
+
+    }
+
+    public void clickOnPopUpAlert(WebDriver driver) {
+        Alert alertOK = driver.switchTo().alert();
+        alertOK.accept();
+    }
+
+    public void editItemWishlist(WebDriver driver, String numberOfQuantity, String updateOrCompare) {
+        driver.findElement(By.xpath("//td//a[@class = 'link-edit button button-secondary']")).click();
+        driver.findElement(By.xpath("//div[@class = 'qty-wrapper']//input")).click();
+        driver.findElement(By.xpath("//div[@class = 'qty-wrapper']//input")).clear();
+        driver.findElement(By.xpath("//div[@class = 'qty-wrapper']//input")).sendKeys(numberOfQuantity);
+        driver.findElement(By.xpath("//ul[@class = 'add-to-links']//a[text() = '" + updateOrCompare + "']")).click();
+
+    }
+
+    public void getBookTitle(WebDriver driver, String bookTitle) {
+        driver.findElement(By.xpath("//td//a[text() = '" + bookTitle + "']")).getText();
+    }
+
+    public void checkItemsToDownload(WebDriver driver){
+        driver.findElement(By.xpath("//td//a[@class = 'link-edit button button-secondary']")).click();
+        driver.findElement(By.xpath("//span[@class = 'label']/label")).click();
+        driver.findElement(By.xpath("//div[@class = 'add-to-cart-buttons']//button")).click();
     }
 
     public WebElement getAccountButton() {

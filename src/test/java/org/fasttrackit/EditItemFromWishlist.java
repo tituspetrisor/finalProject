@@ -2,29 +2,31 @@ package org.fasttrackit;
 
 import org.fasttrackit.pageobjects.Header;
 import org.junit.Test;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-public class DeleteAddressFromAddressBook extends TestBase {
-
+public class EditItemFromWishlist extends TestBase{
     @Test
-    public void deleteAddress(){
+
+    public void editItem(){
         Header header = PageFactory.initElements(driver, Header.class);
         header.logIn(driver);
 
-        String keyword = "Address Book";
+        String keyword = "My Wishlist";
+        String bookTitle = "A Tale of Two Cities ";
+        String numberOfQuantity = "21";
+        String updateOrCompare = "Update Wishlist";
         header.clickOnDashboardPages(driver, keyword).click();
-        driver.findElement(By.xpath("//div[@class = 'col-2 addresses-additional']//a[text() = 'Delete Address']")).click();
+        header.editItemWishlist(driver, numberOfQuantity, updateOrCompare);
 
-        header.clickOnPopUpAlert(driver);
-        String succesMessage = "The address has been deleted.";
+        String succesfulMessage = bookTitle + "has been updated in your wishlist.";
         String expectedMessage = driver.findElement(By.xpath("//div//li[@class = 'success-msg']")).getText();
 
-        assertThat("Expected to delete the address", succesMessage, is(expectedMessage));
+        assertThat("Expect to update wishlist", succesfulMessage, is(expectedMessage));
 
+        driver.quit();
     }
 }
