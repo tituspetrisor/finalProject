@@ -4,6 +4,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -31,6 +32,10 @@ public class Header {
 
     @FindBy(xpath = "//div[@id = 'header-nav']//ol//a[text() = 'Men']")
     private WebElement menButton;
+
+    @FindBy(xpath = "//dl[@class = 'item-options']//dd")
+    private WebElement bookTitle;
+
 
     @FindBy(xpath = "//ul[@class = 'messages']")
     private WebElement successfulmessage;
@@ -156,14 +161,25 @@ public class Header {
 
     }
 
-    public void getBookTitle(WebDriver driver, String bookTitle) {
-        driver.findElement(By.xpath("//td//a[text() = '" + bookTitle + "']")).getText();
+    public String getBookTitle() {
+        bookTitle.getText();
+        return null;
     }
 
-    public void checkItemsToDownload(WebDriver driver){
+    public void checkItemsToDownload(WebDriver driver) {
         driver.findElement(By.xpath("//td//a[@class = 'link-edit button button-secondary']")).click();
         driver.findElement(By.xpath("//span[@class = 'label']/label")).click();
         driver.findElement(By.xpath("//div[@class = 'add-to-cart-buttons']//button")).click();
+    }
+
+    public void logOut(WebDriver driver) {
+        driver.findElement(By.xpath("//div[@class = 'account-cart-wrapper']//a[@class = 'skip-link skip-account']")).click();
+        driver.findElement(By.xpath("//div[@class = 'links']//li//a[@title = 'Log Out']")).click();
+    }
+
+
+    public void review(WebDriver driver){
+        driver.findElement(By.xpath("//td[@class = 'last']")).click();
     }
 
     public WebElement getAccountButton() {
